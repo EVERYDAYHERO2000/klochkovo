@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>СНТСН "КЛОЧКОВО" Членские взносы</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=0.86, maximum-scale=5.0, minimum-scale=0.86"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        font-size: 18px;
+        line-height: 1.5;
+        background: #fafafa;
+        color: rgba(0, 0, 0, 0.75);
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-tap-highlight-color: transparent;
+      }
+      .app {
+        width: 60vw;
+        max-width: 700px;
+        margin: auto;
+        box-sizing: border-box;
+      }
+      @media only screen and (max-width: 600px) {
+        .app {
+          width: 100vw;
+          padding: 24px;
+        }
+      }
+      .info {
+        margin: 64px 0;
+      }
+      .search {
+      }
+      .search__control {
+        display: flex;
+        align-content: center;
+        align-items: center;
+        position: relative;
+      }
+      .search__input {
+        padding: 0 0 32px 0;
+      }
+      .search__input-control {
+        font-size: 18px;
+        padding: 16px;
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #bdd1e2;
+        border-radius: 8px;
+        transition: all 0.1s ease;
+      }
+      .search__input-control:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgb(34 166 255 / 50%);
+        border: 1px solid #5295d0;
+        transition: all 0.3s ease;
+      }
+      .search__input-control::placeholder {
+        color: rgba(0, 0, 0, 0.3);
+      }
+      .search__button-control {
+        position: absolute;
+        right: 0;
+        padding: 16px 24px;
+        cursor: pointer;
+        color: rgb(16, 78, 185);
+        display: flex;
+        align-items: center;
+      }
+      .search__button-control > svg {
+        width: 18px;
+        height: 18px;
+        margin-right: 4px;
+      }
+
+      .search__button-control path {
+        fill: rgb(16, 78, 185);
+      }
+
+      .search__button-control:hover {
+        color: rgb(5, 39, 99);
+      }
+      .search__button-control:hover path {
+        fill: rgb(5, 39, 99);
+      }
+      .link,
+      a,
+      a:visited {
+        color: rgb(16, 78, 185);
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .tab {
+        padding-top: 24px;
+      }
+      .tab__item {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        padding: 16px 0;
+        border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+      }
+      @media only screen and (max-width: 600px) {
+        .tab__item {
+          display: block;
+        }
+      }
+      .tab__item_line {
+        display: block;
+      }
+
+      .tab__item-title {
+        color: rgba(0, 0, 0, 0.5);
+      }
+      .tab > div > div + div {
+        color: rgba(0, 0, 0, 0.75);
+      }
+      .tab_visible_false {
+        display: none;
+      }
+      .tab_visible_true {
+        display: block;
+      }
+      .link:hover,
+      a:hover {
+        color: rgb(5, 39, 99);
+      }
+      .result {
+        box-sizing: border-box;
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 5px 35px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+        position: relative;
+        margin-bottom: 80px;
+      }
+      .result:after {
+        content: "Данные обновляются раз в месяц";
+        display: block;
+        position: absolute;
+        width: calc(100% - 48px);
+        text-align: center;
+        color: rgba(0, 0, 0, 0.4);
+        font-size: 14px;
+        transform: translate(0px, 40px);
+      }
+      .result_visible_false {
+        display: none;
+      }
+      .result_visible_true {
+        display: block;
+      }
+      .loader {
+        width: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .spinner_visible_false {
+        display: none;
+      }
+      .spinner_visible_true {
+        display: block;
+      }
+      .spinner {
+        margin-top: 64px;
+        animation: rotator 1.4s linear infinite;
+      }
+
+      @keyframes rotator {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(270deg);
+        }
+      }
+      .path {
+        stroke-dasharray: 187;
+        stroke-dashoffset: 0;
+        transform-origin: center;
+        animation: dash 1.4s ease-in-out infinite,
+          colors 5.6s ease-in-out infinite;
+      }
+
+      @keyframes colors {
+        0% {
+          stroke: #4285f4;
+        }
+        25% {
+          stroke: #de3e35;
+        }
+        50% {
+          stroke: #f7c223;
+        }
+        75% {
+          stroke: #1b9a59;
+        }
+        100% {
+          stroke: #4285f4;
+        }
+      }
+      @keyframes dash {
+        0% {
+          stroke-dashoffset: 187;
+        }
+        50% {
+          stroke-dashoffset: 46.75;
+          transform: rotate(135deg);
+        }
+        100% {
+          stroke-dashoffset: 187;
+          transform: rotate(450deg);
+        }
+      }
+      .result__balans-value {
+        font-size: 42px;
+        font-weight: 700;
+      }
+      .result__balans-value.result__balans_profit_true {
+        color: #1b9a59;
+      }
+      .result__balans-value.result__balans_profit_false {
+        color: #de3e35;
+      }
+      .result__balans-title {
+      }
+      .result__balans-description {
+        white-space: break-spaces;
+      }
+      .alert {
+        color: #de3e35;
+      }
+      .error {
+      }
+      .error_visible_true {
+        display: block;
+      }
+      .error_visible_false {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="info">
+        <p>
+          <strong>Членские взносы</strong>&nbsp;— это общая копилка нашего СНТ,
+          деньги из&nbsp;которой тратятся на&nbsp;наши нужды: содержание дорог,
+          уборку мусора и&nbsp;снега. Пожалуйста своевременно оплачивайте взносы
+          и&nbsp;не&nbsp;допускайте задолжности.
+        </p>
+        <div class="link">Как платить?</div>
+        <div class="tab tab_visible_false">
+          <p>
+            В Вашем интернет банке, в разделе переводов со счета на счет юр лица
+            создайте новый перевод. Можно настроить автоматический ежемесячный
+            перевод, это удобно.
+          </p>
+          <p>
+            <a
+            target="_blank"
+            href="http://снтснклочково.рф/documents/vlad-usadby/Kvitancija_ob_oplate_chlenskih_vznosov_-_SNTSN_Klochkovo.pdf"
+            >Скачать&nbsp;бланк&nbsp;квитанции</a
+          >
+          </p>
+
+          <div class="tab__item">
+            <div class="tab__item-title">Номер счёта получателя</div>
+            <div>40703810300690000002</div>
+          </div>
+          <div class="tab__item">
+            <div class="tab__item-title">Наименование получателя</div>
+            <div>СНТСН "КЛОЧКОВО"</div>
+          </div>
+          <div class="tab__item">
+            <div class="tab__item-title">ИНН получателя</div>
+            <div>5044113554</div>
+          </div>
+          <div class="tab__item">
+            <div class="tab__item-title">КПП получателя</div>
+            <div>504401001</div>
+          </div>
+          <div class="tab__item">
+            <div class="tab__item-title">БИК банка получателя</div>
+            <div>044525311</div>
+          </div>
+          <div class="tab__item">
+            <div class="tab__item-title">Наименование банка получателя</div>
+            <div>АО "ОТП БАНК" Г. Москва</div>
+          </div>
+          <div class="tab__item">
+            <div class="tab__item-title">Кор. счет банка получателя</div>
+            <div>30101810000000000311</div>
+          </div>
+          <div class="tab__item tab__item_line">
+            <div class="tab__item-title">Назначение платежа</div>
+            <div>
+              Оплата членского взноса в СНТСН Клочково №Уч. [НОМЕР УЧАСТКА]
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="search">
+        <div class="search__input">
+          <div class="search__title"></div>
+          <div class="search__control">
+            <input
+              class="search__input-control"
+              type="text"
+              placeholder="Номер участка"
+              autofocus
+            />
+            <div class="search__button-control">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M6.25 12.5C2.79822 12.5 0 9.70178 0 6.25C0 2.79822 2.79822 0 6.25 0C9.70178 0 12.5 2.79822 12.5 6.25C12.5 7.61497 12.0624 8.87775 11.3199 9.9057L15.2071 13.7929C15.5976 14.1834 15.5976 14.8166 15.2071 15.2071C14.8166 15.5976 14.1834 15.5976 13.7929 15.2071L9.9057 11.3199C8.87775 12.0624 7.61497 12.5 6.25 12.5ZM6.25 10.5C8.59721 10.5 10.5 8.59721 10.5 6.25C10.5 3.90279 8.59721 2 6.25 2C3.90279 2 2 3.90279 2 6.25C2 8.59721 3.90279 10.5 6.25 10.5Z"
+                />
+              </svg>
+              <span>Узнать баланс</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="loader">
+        <svg
+          class="spinner spinner_visible_false"
+          width="65px"
+          height="65px"
+          viewBox="0 0 66 66"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            class="path"
+            fill="none"
+            stroke-width="6"
+            stroke-linecap="round"
+            cx="33"
+            cy="33"
+            r="30"
+          ></circle>
+        </svg>
+      </div>
+      <div class="error error_visible_false"></div>
+      <div class="result result_visible_false">
+        <div class="result__inner">
+          <div class="result__content">
+            <div class="result__balans">
+              <div class="result__balans-title"></div>
+              <div class="result__balans-value"></div>
+              <div class="result__balans-description"></div>
+            </div>
+            <div class="result__info"></div>
+          </div>
+          <div class="result__addition"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      (() => {
+        document
+          .querySelector(".search__input-control")
+          .addEventListener("change", (e) => get(e));
+        document
+          .querySelector(".search__button-control")
+          .addEventListener("click", (e) => get(e));
+        document.querySelector(".link").addEventListener("click", (e) => {
+          const $tab = document.querySelector(".tab");
+          $tab.classList.toggle("tab_visible_false");
+          $tab.classList.toggle("tab_visible_true");
+        });
+
+        function get(event) {
+          const value = document.querySelector(".search__input-control").value;
+          const url = "https://docs.google.com/spreadsheets/d/e/";
+          const $loader = document.querySelector(".spinner");
+          const $result = document.querySelector(".result");
+          const $error = document.querySelector(".error");
+
+          if (!window.DATA) {
+            $loader.classList.remove("spinner_visible_false");
+            $loader.classList.add("spinner_visible_true");
+            loadData(url, (result) => {
+              $loader.classList.remove("spinner_visible_true");
+              $loader.classList.add("spinner_visible_false");
+
+              window.DATA = result;
+
+              find(
+                value,
+                (r) => {
+                  $result.classList.remove("result_visible_false");
+                  $result.classList.add("result_visible_true");
+                  $error.classList.remove("error_visible_true");
+                  $error.classList.add("error_visible_false");
+                  getResult(r);
+                },
+                () => {
+                  $error.innerHTML = `Участок <strong>${value}</strong> не найден :(`;
+                  $error.classList.remove("error_visible_false");
+                  $error.classList.add("error_visible_true");
+
+                  $result.classList.remove("result_visible_true");
+                  $result.classList.add("result_visible_false");
+                }
+              );
+            });
+          } else {
+            find(
+              value,
+              (r) => {
+                $result.classList.remove("result_visible_false");
+                $result.classList.add("result_visible_true");
+                $error.classList.remove("error_visible_true");
+                $error.classList.add("error_visible_false");
+                getResult(r);
+              },
+              () => {
+                $error.textContent = `Участок №${value} не найден :(`;
+                $error.classList.remove("error_visible_false");
+                $error.classList.add("error_visible_true");
+
+                $result.classList.remove("result_visible_true");
+                $result.classList.add("result_visible_false");
+              }
+            );
+          }
+        }
+
+        function getResult(r) {
+          const balans = +r["Сумма к оплате"];
+          const balansProfit = balans > -1 ? true : false;
+          const id = r["№ участка"];
+          const area = +r["S= уч/сот"];
+          const message = r["Комментарий"] || "";
+          const cost = 125;
+          const costPerMonth = cost * area;
+
+          const $balans = document.querySelector(".result__balans-value");
+          const $balansTitle = document.querySelector(".result__balans-title");
+          const $balansDescription = document.querySelector(
+            ".result__balans-description"
+          );
+
+          if (balansProfit) {
+            $balans.classList.add("result__balans_profit_true");
+            $balans.classList.remove("result__balans_profit_false");
+          } else {
+            $balans.classList.remove("result__balans_profit_true");
+            $balans.classList.add("result__balans_profit_false");
+          }
+
+          $balans.textContent = formatUnit(balans) + "₽";
+          $balansTitle.textContent = `Баланс участка ${id}`;
+          $balansDescription.innerHTML =
+            (!balansProfit
+              ? `<div class="alert">Задолжность ~${(
+                  (balans / (area * cost)) *
+                  -1
+                ).toFixed(2)} месяца \n${message}</div>`
+              : "") +
+            `<div>Ежемесячная плата ${formatUnit(area * cost)}₽</div>`;
+        }
+
+        function formatUnit(value) {
+          value = /\.\d/.test(value) ? value + "" : value + ".00";
+          value = /\.\d{2}/.test(value) ? value : value + "0";
+          value = value.replace(/\d(?=(\d{3})+\.)/g, "$& ");
+
+          var cost = value.split(".");
+          value = `${cost[0]}.${cost[1]}`;
+
+          return value;
+        }
+
+        function find(value, callback, fallback) {
+          let match = false;
+
+          window.DATA.forEach((element, i) => {
+            if (element["№ участка"] == value) {
+              match = true;
+              callback(element);
+            }
+          });
+          if (!match) fallback();
+        }
+
+        function loadData(url, callback) {
+          fetch(
+            url +
+              "2PACX-1vRlKHEz5JVnrZYpzoViQDFzFu1U3Xh4VvcOGX4EDfqRuuVj_agABGntt_2Za8niYTTJutPvpGNfdgV9/pub?gid=1376630925&single=true&output=csv"
+          )
+            .then((e) => e.text())
+            .then((e) => {
+              const json = csvJSON(e);
+
+              callback(json);
+            });
+        }
+
+        //var csv is the CSV file with headers
+        function csvJSON(csv) {
+          csv = csv.replace(
+            /"(-?[0-9]+)(,?)([0-9]+)"/gi,
+            (all, first, div, second) => {
+              return div ? first + "." + second : first;
+            }
+          );
+
+          var lines = csv.split("\n");
+
+          var result = [];
+
+          var headers = lines[0].split(",");
+
+          for (var i = 1; i < lines.length; i++) {
+            var obj = {};
+            var currentline = lines[i].split(",");
+
+            for (var j = 0; j < headers.length; j++) {
+              obj[headers[j]] = currentline[j].trim();
+            }
+
+            result.push(obj);
+          }
+
+          return result;
+        }
+      })();
+    </script>
+  </body>
+</html>
