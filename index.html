@@ -469,7 +469,7 @@
           $balansTitle.textContent = `Баланс участка ${id}`;
           $balansDescription.innerHTML =
             (!balansProfit
-              ? `<div class="alert">Задолжность ~${(
+              ? `<div class="alert">Долг ~${(
                   (balans / (area * cost)) *
                   -1
                 ).toFixed(2)} месяца \n${message}</div>`
